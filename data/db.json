@@ -1,0 +1,27 @@
+{
+  "recipes": [
+    {
+      "title": "Simple Syrup",
+      "details": "100 grams of sugar\n100 grams of water",
+      "category": "Year Round",
+      "id": 4
+    },
+    {
+      "title": "Honey Syrup",
+      "details": "240 grams honey\n260 grams water",
+      "category": "Year Round",
+      "id": 5
+    },
+    {
+      "title": "Agave Lime Syrup",
+      "details": "Agave, water, lime zest",
+      "category": "Seasonal",
+      "id": 6
+    },
+    {
+      "title": "Simple Syrup",
+      "details": "combine ingredients in a pot and bring to boil, let cool and refrigerate.",
+      "id": 7
+    }
+  ]
+}

@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import NewRecipeForm from "./Components/NewRecipeForm";
+import Recipes from "./Components/Recipes";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { GlobalStyles } from "@mui/material";
+
+const font = "'Lora', serif";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#188ffb",
+    },
+  },
+  typography: {
+    fontFamily: font,
+    allVariants: {
+      color: "#188ffb",
+    },
+  },
+});
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ThemeProvider theme={theme}>
+        <GlobalStyles styles={{ body: { backgroundColor: "#188ffb" } }} />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<NewRecipeForm />} />
+            <Route path="/recipes" element={<Recipes />} />
+            <Route path="/newrecipeform" element={<NewRecipeForm />} />
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
     </div>
   );
 }
