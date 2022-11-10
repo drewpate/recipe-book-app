@@ -36,6 +36,7 @@ const NewRecipeForm = () => {
     let title = inputFields.title;
     let details = inputFields.details;
     let ingredients = inputFields.ingredients;
+    console.log(ingredients);
 
     if (title === "") {
       setTitleError(true);
@@ -55,6 +56,7 @@ const NewRecipeForm = () => {
         body: JSON.stringify({
           title,
           details,
+          ingredients,
         }),
       }).then(() => navigate("/recipes"));
     }
