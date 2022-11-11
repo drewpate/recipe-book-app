@@ -1,19 +1,40 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./Components/Home";
 import NewRecipeForm from "./Components/NewRecipeForm";
 import Recipes from "./Components/Recipes";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { GlobalStyles } from "@mui/material";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
+import {
+  Drawer,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  IconButton,
+} from "@mui/material";
+import {
+  CheckBoxOutlineBlankOutlined,
+  DraftsOutlined,
+  HomeOutlined,
+  InboxOutlined,
+  MailOutline,
+  ReceiptOutlined,
+} from "@mui/icons-material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Drawer } from "@mui/material";
+import { useState } from "react";
+
+const data = [
+  {
+    name: "Home",
+    icon: <HomeOutlined />,
+  },
+  { name: "Inbox", icon: <InboxOutlined /> },
+  { name: "Outbox", icon: <CheckBoxOutlineBlankOutlined /> },
+  { name: "Sent mail", icon: <MailOutline /> },
+  { name: "Draft", icon: <DraftsOutlined /> },
+  { name: "Trash", icon: <ReceiptOutlined /> },
+];
 
 const font = "'Lora', serif";
-const drawerWidth = 240;
 
 const theme = createTheme({
   palette: {
@@ -29,51 +50,36 @@ const theme = createTheme({
   },
 });
 
-const Navbar = () => {
-  return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
-    </Box>
-  );
-};
-
 function App() {
+  const [open, setOpen] = useState(false);
+
+  const getList = () => (
+    <div style={{ width: 250 }} onClick={() => setOpen(false)}>
+      {data.map((item, index) => (
+        <ListItem button key={index}>
+          <ListItemIcon>{item.icon}</ListItemIcon>
+          <ListItemText primary={item.name} />
+        </ListItem>
+      ))}
+    </div>
+  );
+
   return (
     <div className="App">
+      <div>
+        <IconButton onClick={() => setOpen(true)}>
+          <MenuIcon />
+        </IconButton>
+        <Drawer open={open} anchor={"left"} onClose={() => setOpen(false)}>
+          {getList()}
+        </Drawer>
+      </div>
       <ThemeProvider theme={theme}>
         <GlobalStyles styles={{ body: { backgroundColor: "#188ffb" } }} />
         <BrowserRouter>
-          <Navbar />
-          <Drawer
-            sx={{
-              width: drawerWidth,
-              flexShrink: 0,
-              "& .MuiDrawer-paper": {
-                width: drawerWidth,
-                boxSizing: "border-box",
-              },
-            }}
-            variant="persistent"
-            anchor="left"
-          />
           <Routes>
-            <Route path="/" element={<NewRecipeForm />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/newrecipe" element={<NewRecipeForm />} />
             <Route path="/recipes" element={<Recipes />} />
           </Routes>
         </BrowserRouter>

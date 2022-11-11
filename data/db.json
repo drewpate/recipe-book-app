@@ -1,17 +1,6 @@
 {
   "recipes": [
     {
-      "title": "test title",
-      "details": "test details",
-      "ingredients": [
-        {
-          "ingredient": "test ingredient",
-          "amount": "test amount"
-        }
-      ],
-      "id": 5
-    },
-    {
       "title": "test syrup 1",
       "details": "test details for test syrup 1",
       "ingredients": [
