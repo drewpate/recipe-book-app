@@ -22,7 +22,9 @@ const RecipeCard = ({ recipe, handleDelete }) => {
       <CardContent>
         {recipe.ingredients.map((ingredient, index) => (
           <Typography key={uuidv4()} variant="body2" color="textSecondary">
-            Ingredient: {recipe.ingredients[index].ingredient}
+            <b>Ingredient:</b> {recipe.ingredients[index].ingredient}
+            <br />
+            <b>Amount:</b> {recipe.ingredients[index].amount}
           </Typography>
         ))}
       </CardContent>

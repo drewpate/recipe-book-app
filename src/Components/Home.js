@@ -1,13 +1,17 @@
 import React from "react";
-import { Card, CardContent, Typography } from "@mui/material";
+import { Card, CardHeader } from "@mui/material";
+import { Container } from "@mui/system";
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 
 const Home = () => {
   return (
-    <Card>
-      <CardContent>
-        <Typography>Home Page</Typography>
-      </CardContent>
-    </Card>
+    <Container
+      sx={{ display: "flex", justifyContent: "center", marginTop: "50px" }}
+    >
+      <Card>
+        <CardHeader title={`Welcome`} />
+      </Card>
+    </Container>
   );
 };
 

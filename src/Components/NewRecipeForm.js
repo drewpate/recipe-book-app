@@ -4,13 +4,7 @@ import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
-import { Grid, Radio } from "@mui/material";
-import { FormControl } from "@mui/material";
-import { FormControlLabel } from "@mui/material";
-import { FormLabel } from "@mui/material";
-import { RadioGroup } from "@mui/material";
-import { CardContent, Typography } from "@mui/material";
-import { IconButton } from "@mui/material";
+import { Grid, CardContent, Typography, IconButton } from "@mui/material";
 import { DeleteOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
@@ -19,7 +13,6 @@ const NewRecipeForm = () => {
   const [inputFields, setInputFields] = useState({
     title: "",
     details: "",
-    category: "",
     ingredients: [],
   });
 
@@ -129,6 +122,7 @@ const NewRecipeForm = () => {
               placeholder="Title"
               onChange={handleChange}
               error={titleError}
+              sx={{ paddingBottom: "10px" }}
               required
             />
             {inputFields.ingredients.map((ingredient, index) => {
@@ -182,29 +176,11 @@ const NewRecipeForm = () => {
               rows={4}
               onChange={handleChange}
               error={detailsError}
+              sx={{ paddingBottom: "10px" }}
               required
             >
               Details
             </TextField>
-
-            <FormControl sx={{ margin: "5px" }}>
-              <FormLabel>Category:</FormLabel>
-              <RadioGroup value={inputFields.category} name="category">
-                <FormControlLabel
-                  value="Year Round"
-                  name="year round"
-                  control={<Radio />}
-                  label="Year Round"
-                />
-                <FormControlLabel
-                  value="Seasonal"
-                  name="seasonal"
-                  control={<Radio />}
-                  label="Seasonal"
-                />
-              </RadioGroup>
-              <br />
-            </FormControl>
 
             <Button
               sx={{ margin: "5px" }}

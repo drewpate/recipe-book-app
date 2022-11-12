@@ -1,42 +1,19 @@
 {
   "recipes": [
     {
-      "title": "test syrup 1",
-      "details": "test details for test syrup 1",
+      "title": "Simple Syrup",
+      "details": "Bring to boil and let cool. Transfer to a container and store in fridge for up to two weeks.",
       "ingredients": [
         {
-          "ingredient": "test ingredient 1",
-          "amount": "test amount 1"
+          "ingredient": "sugar",
+          "amount": "8 oz."
         },
         {
-          "ingredient": "test ingredient 2",
-          "amount": "test amount 1"
+          "ingredient": "water",
+          "amount": "8 oz."
         }
       ],
-      "id": 6
-    },
-    {
-      "title": "test title 3",
-      "details": "test recipe 3 details",
-      "ingredients": [
-        {
-          "ingredient": "test ingredient 1",
-          "amount": "amount 1"
-        },
-        {
-          "ingredient": "test ingredient 2",
-          "amount": "amount 2"
-        },
-        {
-          "ingredient": "test ingredient 3",
-          "amount": "amount 3"
-        },
-        {
-          "ingredient": "test ingredient 4",
-          "amount": "amount 4"
-        }
-      ],
-      "id": 7
+      "id": 8
     }
   ]
 }

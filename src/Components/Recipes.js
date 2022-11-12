@@ -25,7 +25,7 @@ const Recipes = () => {
     <Container className="container">
       <Grid container spacing={3}>
         {recipes.map((recipe) => (
-          <Grid item key={recipe.id} xs={12} md={6} lg={4}>
+          <Grid item key={recipe.id} xs={12}>
             <RecipeCard recipe={recipe} handleDelete={handleDelete} />
           </Grid>
         ))}
