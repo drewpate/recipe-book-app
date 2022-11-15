@@ -18,11 +18,11 @@ const MyDrawer = () => {
 
   const data = [
     {
-      name: "",
+      name: "Home",
       icon: <HomeOutlined />,
     },
     { name: "Recipes", icon: <NotesIcon /> },
-    { name: "NewRecipe", icon: <CreateIcon /> },
+    { name: "New Recipe", icon: <CreateIcon /> },
     // { name: "Outbox", icon: <CheckBoxOutlineBlankOutlined /> },
     // { name: "Sent mail", icon: <MailOutline /> },
     // { name: "Draft", icon: <DraftsOutlined /> },
@@ -32,7 +32,10 @@ const MyDrawer = () => {
   const getList = () => (
     <div style={{ width: 250 }} onClick={() => setOpen(false)}>
       {data.map((item, index) => (
-        <Link key={index} href={"/" + item.name}>
+        <Link
+          key={index}
+          href={"/" + item.name.replace("Home", "").split(" ").join("")}
+        >
           <ListItem button>
             <ListItemIcon>{item.icon}</ListItemIcon>
             <ListItemText primary={item.name} />
