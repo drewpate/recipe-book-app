@@ -34,6 +34,7 @@ const MyDrawer = () => {
       {data.map((item, index) => (
         <Link
           key={index}
+          underline="none"
           href={"/" + item.name.replace("Home", "").split(" ").join("")}
         >
           <ListItem button>
