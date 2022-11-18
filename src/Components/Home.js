@@ -1,7 +1,6 @@
 import React from "react";
-import { Card, CardHeader } from "@mui/material";
+import { Card, CardHeader, CardContent, Typography } from "@mui/material";
 import { Container } from "@mui/system";
-import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 
 const Home = () => {
   return (
@@ -10,6 +9,15 @@ const Home = () => {
     >
       <Card>
         <CardHeader title={`Welcome`} />
+        <CardContent>
+          <Typography>
+            MyRecipe Book is a simple application for compiling and saving your
+            personal, favorite recipes. Think of it as a replacement for that
+            old three-ring binder or the pile of note cards in your kitchen
+            drawer.
+            <br />
+          </Typography>
+        </CardContent>
       </Card>
     </Container>
   );

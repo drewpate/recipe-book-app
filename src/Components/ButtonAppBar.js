@@ -6,7 +6,8 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
-export default function ButtonAppBar() {
+
+const ButtonAppBar = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -23,9 +24,12 @@ export default function ButtonAppBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             MyRecipe Book
           </Typography>
+
           <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
     </Box>
   );
-}
+};
+
+export default ButtonAppBar;
