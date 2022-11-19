@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./Contexts/AuthContext";
 import Home from "./Components/Home";
 import Login from "./Components/Login";
 import NewRecipeForm from "./Components/NewRecipeForm";
@@ -32,12 +33,14 @@ function App() {
         <MyDrawer />
 
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/newrecipe" element={<NewRecipeForm />} />
-            <Route path="/recipes" element={<Recipes />} />
-          </Routes>
+          <AuthProvider>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/newrecipe" element={<NewRecipeForm />} />
+              <Route path="/recipes" element={<Recipes />} />
+            </Routes>
+          </AuthProvider>
         </BrowserRouter>
       </ThemeProvider>
     </div>

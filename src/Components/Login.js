@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Alert from "@mui/material/Alert";
 import {
   Card,
   CardHeader,
@@ -12,16 +13,44 @@ import TextField from "@mui/material/TextField";
 import { Container } from "@mui/system";
 
 import GoogleButton from "react-google-button";
-import {
-  auth,
-  signInWithEmailAndPassword,
-  signInWithGoogle,
-} from "../firebase-config";
 
-function Login() {
+const Login = () => {
+  let navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    setEmailError(false);
+    setPasswordError(false);
+
+    let emailInput = email;
+    let passwordInput = password;
+
+    if (emailInput && passwordInput === "") {
+      setEmailError(true);
+      setPasswordError(true);
+    }
+
+    if (emailInput === "") {
+      setEmailError(true);
+    }
+
+    if (passwordInput === "") {
+      setPasswordError(true);
+    }
+
+    if (emailInput && passwordInput) {
+      setEmailError(false);
+      setPassword(false);
+      console.log("email and password received");
+      navigate("/");
+    }
+  };
 
   return (
     <Container
@@ -30,23 +59,50 @@ function Login() {
       <Card>
         <CardHeader title={`Login`} />
         <CardContent>
-          <TextField
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email Address"
-          />
-          <TextField
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <br />
-          <Button onClick={() => signInWithEmailAndPassword(email, password)}>
-            Login
-          </Button>
-          <GoogleButton onClick={signInWithGoogle} />
+          <form
+            className="form"
+            noValidate
+            autoComplete="off"
+            onSubmit={submitHandler}
+          >
+            {emailError && (
+              <Alert severity="error" sx={{ margin: "5px" }}>
+                Please enter an email
+              </Alert>
+            )}
+            <TextField
+              required
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email Address"
+              autoComplete="off"
+              error={emailError}
+            />
+            <br />
+            <br />
+
+            {passwordError && (
+              <Alert severity="error" sx={{ margin: "5px" }}>
+                Please enter a password
+              </Alert>
+            )}
+            <TextField
+              required
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              id="outlined-password-input"
+              label="Password"
+              autoComplete="off"
+              error={passwordError}
+            />
+            <br />
+            <Button sx={{ margin: "5px" }} type="submit" variant="contained">
+              Login
+            </Button>
+            <GoogleButton />
+          </form>
           <CardContent>
             <Link>Forgot Password</Link>
           </CardContent>
@@ -58,6 +114,6 @@ function Login() {
       </Card>
     </Container>
   );
-}
+};
 
 export default Login;
