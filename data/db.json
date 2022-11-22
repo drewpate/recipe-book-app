@@ -14,21 +14,6 @@
         }
       ],
       "id": 8
-    },
-    {
-      "title": "Macaroni and Cheese",
-      "details": "Bring noodles to boil and drain, melt cheese in.",
-      "ingredients": [
-        {
-          "ingredient": "Macaroni noodles",
-          "amount": "1 cup"
-        },
-        {
-          "ingredient": "Cheese",
-          "amount": "1 cup"
-        }
-      ],
-      "id": 9
     }
   ]
 }

@@ -23,10 +23,6 @@ const MyDrawer = () => {
     },
     { name: "Recipes", icon: <NotesIcon /> },
     { name: "New Recipe", icon: <CreateIcon /> },
-    // { name: "Outbox", icon: <CheckBoxOutlineBlankOutlined /> },
-    // { name: "Sent mail", icon: <MailOutline /> },
-    // { name: "Draft", icon: <DraftsOutlined /> },
-    // { name: "Trash", icon: <ReceiptOutlined /> },
   ];
 
   const getList = () => (

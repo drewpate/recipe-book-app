@@ -7,6 +7,7 @@ import Recipes from "./Components/Recipes";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import MyDrawer from "./Components/MyDrawer";
 import ButtonAppBar from "./Components/ButtonAppBar";
+import Register from "./Components/Register";
 const font = "'Roboto', sans-serif";
 
 const theme = createTheme({
@@ -37,6 +38,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
               <Route path="/newrecipe" element={<NewRecipeForm />} />
               <Route path="/recipes" element={<Recipes />} />
             </Routes>

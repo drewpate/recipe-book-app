@@ -13,9 +13,7 @@ import {
 import TextField from "@mui/material/TextField";
 import { Container } from "@mui/system";
 
-import GoogleButton from "react-google-button";
-
-const Login = () => {
+const Register = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const { login } = useAuth();
@@ -34,9 +32,6 @@ const Login = () => {
     } catch {
       setError("Invalid credentials");
     }
-    // setEmailError(false);
-    // setPassword(false);
-    // console.log("email and password received");
     // navigate("/");
     setLoading(false);
   }
@@ -83,16 +78,12 @@ const Login = () => {
               type="submit"
               variant="contained"
             >
-              Login
+              Register
             </Button>
-            <GoogleButton />
           </form>
           <CardContent>
-            <Link>Forgot Password</Link>
-          </CardContent>
-          <CardContent>
-            <Typography>Don't have an account?</Typography>
-            <Link href="/register">Register</Link>
+            <Typography>Already have an account?</Typography>
+            <Link href="/login">Login</Link>
           </CardContent>
         </CardContent>
       </Card>
@@ -100,4 +91,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
