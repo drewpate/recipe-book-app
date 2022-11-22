@@ -1,6 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Contexts/AuthContext";
+import { auth } from "../firebase-config";
 import Alert from "@mui/material/Alert";
 import {
   Card,
@@ -14,9 +15,10 @@ import TextField from "@mui/material/TextField";
 import { Container } from "@mui/system";
 
 const Register = () => {
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const { login } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const { signup } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   let navigate = useNavigate();
@@ -24,15 +26,19 @@ const Register = () => {
   async function submitHandler(e) {
     e.preventDefault();
 
+    if (password !== confirmPassword) {
+      return setError("Passwords do not match");
+    }
+
     try {
       setError("");
       setLoading(true);
-      await login(emailRef.current.value, passwordRef.current.value);
+      await signup(auth, email, password);
       navigate("/newrecipe");
-    } catch {
-      setError("Invalid credentials");
+    } catch (error) {
+      setError("Failed to create account");
+      console.log(error);
     }
-    // navigate("/");
     setLoading(false);
   }
 
@@ -41,7 +47,7 @@ const Register = () => {
       sx={{ display: "flex", justifyContent: "center", marginTop: "50px" }}
     >
       <Card>
-        <CardHeader title={`Login`} />
+        <CardHeader title={`Register`} />
         <CardContent>
           <form
             className="form"
@@ -57,7 +63,8 @@ const Register = () => {
             <TextField
               required
               type="email"
-              inputRef={emailRef}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Email Address"
               autoComplete="off"
             />
@@ -66,9 +73,20 @@ const Register = () => {
             <TextField
               required
               type="password"
-              inputRef={passwordRef}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               id="outlined-password-input"
               label="Password"
+              autoComplete="off"
+            />
+            <br />
+            <TextField
+              required
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              id="outlined-password-confirm-input"
+              label="Confirm Password"
               autoComplete="off"
             />
             <br />
