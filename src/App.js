@@ -30,11 +30,11 @@ function App() {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        <ButtonAppBar />
         <MyDrawer />
 
         <BrowserRouter>
           <AuthProvider>
+            <ButtonAppBar />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />

@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../firebase-config";
 import { useAuth } from "../Contexts/AuthContext";
 import Alert from "@mui/material/Alert";
 import {
@@ -29,16 +30,12 @@ const Login = () => {
     try {
       setError("");
       setLoading(true);
-      await login(emailRef.current.value, passwordRef.current.value);
-      navigate("/newrecipe");
+      await login(auth, emailRef.current.value, passwordRef.current.value);
     } catch {
       setError("Invalid credentials");
     }
-    // setEmailError(false);
-    // setPassword(false);
-    // console.log("email and password received");
-    // navigate("/");
     setLoading(false);
+    navigate("/newrecipe");
   }
 
   return (
