@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../firebase-config";
 import { useAuth } from "../Contexts/AuthContext";
 import Alert from "@mui/material/Alert";
 import {
@@ -30,7 +29,7 @@ const Login = () => {
     try {
       setError("");
       setLoading(true);
-      await login(auth, emailRef.current.value, passwordRef.current.value);
+      await login(emailRef.current.value, passwordRef.current.value);
     } catch {
       setError("Invalid credentials");
     }

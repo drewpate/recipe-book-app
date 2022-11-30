@@ -20,11 +20,11 @@ export function AuthProvider({ children }) {
     return createUserWithEmailAndPassword(auth, email, password);
   }
 
-  function login(auth, email, password) {
+  function login(email, password) {
     return signInWithEmailAndPassword(auth, email, password);
   }
 
-  function logout(auth) {
+  function logout() {
     return signOut(auth);
   }
 

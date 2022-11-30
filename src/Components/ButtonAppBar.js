@@ -2,7 +2,6 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import { auth } from "../firebase-config";
 import { Typography, Button } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 
@@ -16,7 +15,7 @@ const ButtonAppBar = () => {
 
   async function handleLogOut() {
     try {
-      await logout(auth);
+      await logout();
     } catch {
       console.log("Log Out Failed!");
     }
