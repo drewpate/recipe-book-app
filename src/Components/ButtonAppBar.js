@@ -2,20 +2,26 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
+import { auth } from "../firebase-config";
+import { Typography, Button } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
+
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import { useAuth } from "../Contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const ButtonAppBar = () => {
-  const { currentUser, logout } = useAuth();
+  const { logout, currentUser } = useAuth();
   let navigate = useNavigate();
 
-  const handleLogOut = () => {
-    logout();
+  async function handleLogOut() {
+    try {
+      await logout(auth);
+    } catch {
+      console.log("Log Out Failed!");
+    }
     navigate("/login");
-  };
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -35,7 +41,9 @@ const ButtonAppBar = () => {
           </Typography>
 
           {currentUser ? (
-            <button onClick={handleLogOut}>Log Out</button>
+            <Button color="secondary" onClick={handleLogOut}>
+              Log Out
+            </Button>
           ) : (
             <p>no user logged in</p>
           )}

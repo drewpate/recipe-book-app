@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./Contexts/AuthContext";
+import PrivateRoutes from "./Components/PrivateRoutes";
 import Home from "./Components/Home";
 import Login from "./Components/Login";
 import NewRecipeForm from "./Components/NewRecipeForm";
@@ -17,7 +18,7 @@ const theme = createTheme({
       main: "#3f51b5",
     },
     secondary: {
-      main: "#f50057",
+      main: "#FFFFFF",
     },
   },
   typography: {
@@ -39,8 +40,10 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/newrecipe" element={<NewRecipeForm />} />
-              <Route path="/recipes" element={<Recipes />} />
+              <Route element={<PrivateRoutes />}>
+                <Route path="/recipes" element={<Recipes />} />
+                <Route path="/newrecipe" element={<NewRecipeForm />} />
+              </Route>
             </Routes>
           </AuthProvider>
         </BrowserRouter>
