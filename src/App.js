@@ -31,10 +31,9 @@ function App() {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        <MyDrawer />
-
         <BrowserRouter>
           <AuthProvider>
+            <MyDrawer />
             <ButtonAppBar />
             <Routes>
               <Route path="/" element={<Home />} />

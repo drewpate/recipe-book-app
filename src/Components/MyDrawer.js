@@ -1,4 +1,5 @@
 import React from "react";
+import { useAuth } from "../Contexts/AuthContext";
 import {
   Drawer,
   ListItem,
@@ -15,7 +16,7 @@ import { useState } from "react";
 
 const MyDrawer = () => {
   const [open, setOpen] = useState(false);
-
+  const { currentUser } = useAuth();
   const data = [
     {
       name: "Home",
@@ -27,18 +28,29 @@ const MyDrawer = () => {
 
   const getList = () => (
     <div style={{ width: 250 }} onClick={() => setOpen(false)}>
-      {data.map((item, index) => (
-        <Link
-          key={index}
-          underline="none"
-          href={"/" + item.name.replace("Home", "").split(" ").join("")}
-        >
+      {currentUser ? (
+        data.map((item, index) => (
+          <Link
+            key={index}
+            underline="none"
+            href={"/" + item.name.replace("Home", "").split(" ").join("")}
+          >
+            <ListItem button>
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.name} />
+            </ListItem>
+          </Link>
+        ))
+      ) : (
+        <Link key={1} underline="none" href={"/"}>
           <ListItem button>
-            <ListItemIcon>{item.icon}</ListItemIcon>
-            <ListItemText primary={item.name} />
+            <ListItemIcon>
+              <HomeOutlined />
+            </ListItemIcon>
+            <ListItemText primary="Home" />
           </ListItem>
         </Link>
-      ))}
+      )}
     </div>
   );
 
