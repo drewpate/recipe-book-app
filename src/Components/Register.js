@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Contexts/AuthContext";
-import { auth } from "../firebase-config";
 import Alert from "@mui/material/Alert";
 import {
   Card,
@@ -33,7 +32,7 @@ const Register = () => {
     try {
       setError("");
       setLoading(true);
-      await signup(auth, email, password);
+      await signup(email, password);
     } catch (error) {
       setError("Failed to create account");
       console.log(error);
