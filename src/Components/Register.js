@@ -33,12 +33,12 @@ const Register = () => {
       setError("");
       setLoading(true);
       await signup(email, password);
-      navigate("/newrecipe");
     } catch (error) {
       setError("Failed to create account");
       console.log(error);
     }
     setLoading(false);
+    navigate("/newrecipe");
   }
 
   return (

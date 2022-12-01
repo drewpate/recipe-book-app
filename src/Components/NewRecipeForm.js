@@ -7,9 +7,12 @@ import TextField from "@mui/material/TextField";
 import { Grid, CardContent, Typography, IconButton } from "@mui/material";
 import { DeleteOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { addDoc, collection } from "firebase/firestore";
+import { db, auth } from "../firebase-config";
 
 const NewRecipeForm = () => {
   let navigate = useNavigate();
+
   const [inputFields, setInputFields] = useState({
     title: "",
     details: "",
@@ -20,7 +23,9 @@ const NewRecipeForm = () => {
   const [detailsError, setDetailsError] = useState(false);
   const [ingredeientsError, setIngredientsError] = useState(false);
 
-  const submitHandler = (e) => {
+  const postCollectionRef = collection(db, "recipes");
+
+  const createRecipe = async (e) => {
     e.preventDefault();
     setTitleError(false);
     setDetailsError(false);
@@ -29,7 +34,6 @@ const NewRecipeForm = () => {
     let title = inputFields.title;
     let details = inputFields.details;
     let ingredients = inputFields.ingredients;
-    console.log(ingredients);
 
     if (title === "") {
       setTitleError(true);
@@ -42,18 +46,51 @@ const NewRecipeForm = () => {
     if (ingredients === "") {
       setIngredientsError(true);
     }
-    if (title && details) {
-      fetch("http://localhost:8000/recipes", {
-        method: "POST",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify({
-          title,
-          details,
-          ingredients,
-        }),
-      }).then(() => navigate("/recipes"));
-    }
+
+    await addDoc(postCollectionRef, {
+      title,
+      details,
+      ingredients,
+      author: { email: auth.currentUser.email, id: auth.currentUser.uid },
+    });
+
+    navigate("/");
   };
+
+  // const submitHandler = (e) => {
+  //   e.preventDefault();
+  //   setTitleError(false);
+  //   setDetailsError(false);
+  //   setIngredientsError(false);
+
+  //   let title = inputFields.title;
+  //   let details = inputFields.details;
+  //   let ingredients = inputFields.ingredients;
+  //   console.log(ingredients);
+
+  //   if (title === "") {
+  //     setTitleError(true);
+  //   }
+
+  //   if (details === "") {
+  //     setDetailsError(true);
+  //   }
+
+  //   if (ingredients === "") {
+  //     setIngredientsError(true);
+  //   }
+  //   if (title && details) {
+  //     fetch("http://localhost:8000/recipes", {
+  //       method: "POST",
+  //       headers: { "Content-type": "application/json" },
+  //       body: JSON.stringify({
+  //         title,
+  //         details,
+  //         ingredients,
+  //       }),
+  //     }).then(() => navigate("/recipes"));
+  //   }
+  // };
 
   const addIngredient = () => {
     const newIngredient = {
@@ -113,7 +150,7 @@ const NewRecipeForm = () => {
             className="form"
             noValidate
             autoComplete="off"
-            onSubmit={submitHandler}
+            onSubmit={createRecipe}
           >
             <TextField
               value={inputFields.name}

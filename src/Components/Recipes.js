@@ -22,7 +22,7 @@ const Recipes = () => {
     setRecipes(newRecipes);
   };
   return (
-    <Container className="container">
+    <Container sx={{ marginTop: "10px" }} className="container">
       <Grid container spacing={3}>
         {recipes.map((recipe) => (
           <Grid item key={recipe.id} xs={12}>
