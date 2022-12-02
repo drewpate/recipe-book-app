@@ -16,11 +16,13 @@ import { Container } from "@mui/system";
 import GoogleButton from "react-google-button";
 
 const Login = () => {
+  //initialize state
   const emailRef = useRef();
   const passwordRef = useRef();
   const { login } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  //assign and initialize useNavigate
   let navigate = useNavigate();
 
   async function submitHandler(e) {
@@ -81,6 +83,7 @@ const Login = () => {
             >
               Login
             </Button>
+            {/* TODO: add the Google sign in */}
             <GoogleButton />
           </form>
           <CardContent>
