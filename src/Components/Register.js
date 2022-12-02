@@ -13,18 +13,23 @@ import {
 import TextField from "@mui/material/TextField";
 import { Container } from "@mui/system";
 
+//creates account in firestore with email and password
 const Register = () => {
+  //initialize form states
+  //TODO: try out useRef instead of state.
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const { signup } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  //bring in signup function from AuthContext
+  const { signup } = useAuth();
+  //assign and initialize useNavigate
   let navigate = useNavigate();
 
   async function submitHandler(e) {
     e.preventDefault();
-
+    //simple validation
     if (password !== confirmPassword) {
       return setError("Passwords do not match");
     }
@@ -38,6 +43,7 @@ const Register = () => {
       console.log(error);
     }
     setLoading(false);
+    //if account was successfully created, direct user to create their first recipe
     navigate("/newrecipe");
   }
 
