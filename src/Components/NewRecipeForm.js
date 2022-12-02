@@ -11,6 +11,7 @@ import { addDoc, collection } from "firebase/firestore";
 import { db, auth } from "../firebase-config";
 
 const NewRecipeForm = () => {
+  // assign useNavigate hook to variable to be used when the user needs to be directed to another page
   let navigate = useNavigate();
 
   const [inputFields, setInputFields] = useState({
@@ -19,22 +20,27 @@ const NewRecipeForm = () => {
     ingredients: [],
   });
 
+  //initialize states
   const [titleError, setTitleError] = useState(false);
   const [detailsError, setDetailsError] = useState(false);
   const [ingredeientsError, setIngredientsError] = useState(false);
-
+  //creates a collection reference and target the collection in firestore
   const postCollectionRef = collection(db, "recipes");
 
+  //handles posting the new recipe to firestore
   const createRecipe = async (e) => {
     e.preventDefault();
     setTitleError(false);
     setDetailsError(false);
     setIngredientsError(false);
 
+    //assigned the state values to variables to make them easier to work with for validation below
     let title = inputFields.title;
     let details = inputFields.details;
     let ingredients = inputFields.ingredients;
 
+    //just some validation
+    //TODO: try to store this in a variable elsewhere and bring it in to make this look a bit cleaner
     if (title === "") {
       setTitleError(true);
     }
@@ -46,73 +52,37 @@ const NewRecipeForm = () => {
     if (ingredients === "") {
       setIngredientsError(true);
     }
-
+    //adds the recipe to firestore
     await addDoc(postCollectionRef, {
       title,
       details,
       ingredients,
       author: { email: auth.currentUser.email, id: auth.currentUser.uid },
     });
-
+    //here's where useNavigate does it's thing and directs user to the homepage
     navigate("/");
   };
 
-  // const submitHandler = (e) => {
-  //   e.preventDefault();
-  //   setTitleError(false);
-  //   setDetailsError(false);
-  //   setIngredientsError(false);
-
-  //   let title = inputFields.title;
-  //   let details = inputFields.details;
-  //   let ingredients = inputFields.ingredients;
-  //   console.log(ingredients);
-
-  //   if (title === "") {
-  //     setTitleError(true);
-  //   }
-
-  //   if (details === "") {
-  //     setDetailsError(true);
-  //   }
-
-  //   if (ingredients === "") {
-  //     setIngredientsError(true);
-  //   }
-  //   if (title && details) {
-  //     fetch("http://localhost:8000/recipes", {
-  //       method: "POST",
-  //       headers: { "Content-type": "application/json" },
-  //       body: JSON.stringify({
-  //         title,
-  //         details,
-  //         ingredients,
-  //       }),
-  //     }).then(() => navigate("/recipes"));
-  //   }
-  // };
-
+  //this will allow the user to dynamically add ingredients to the form
   const addIngredient = () => {
     const newIngredient = {
       ingredient: "",
       amount: "",
     };
-
+    //set the inputFields to all the previous values and include the new ones
     setInputFields({
       ...inputFields,
       ingredients: [...inputFields.ingredients, newIngredient],
     });
   };
-
+  //user can remove the fields dynamically if they change their mind
+  //or added more than intended
   const removeFields = (index) => {
     let data = { ...inputFields };
     data.ingredients.splice(index, 1);
     setInputFields({ ...inputFields });
-    // let data = {...inputFields};
-    // data.splice(index, 1);
-    // setInputFields({data});
   };
-
+  //handles change for the ingredients
   const handleIngredientChange = (e, index) => {
     const { name, value } = e.target;
 
@@ -127,7 +97,9 @@ const NewRecipeForm = () => {
       ingredients: updatedIngredients,
     });
   };
-
+  //handles the changes for the other fields since they don't need to be dynamic
+  //TODO see if it might make things simpler to store these in a ref since we don't really need statet
+  //to track these until user submits?
   const handleChange = (e) => {
     const { name, value } = e.target;
 
