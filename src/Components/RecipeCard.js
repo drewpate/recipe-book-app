@@ -17,10 +17,9 @@ const RecipeCard = ({ recipe, handleDelete }) => {
           </IconButton>
         }
         title={recipe.title}
-        subheader={recipe.category}
       />
       <CardContent>
-        {recipe.ingredients.map((ingredient, index) => (
+        {recipe.ingredients?.map((ingredient, index) => (
           <Typography key={uuidv4()} variant="body2" color="textSecondary">
             <b>Ingredient:</b> {recipe.ingredients[index].ingredient}
             <br />

@@ -3,24 +3,26 @@ import { useState } from "react";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import RecipeCard from "./RecipeCard";
+import { collection, deleteDoc, getDocs, doc } from "firebase/firestore";
+import { db } from "../firebase-config";
 
 const Recipes = () => {
   const [recipes, setRecipes] = useState([]);
+  const recipesCollectionRef = collection(db, "recipes");
 
   useEffect(() => {
-    fetch("http://localhost:8000/recipes")
-      .then((res) => res.json())
-      .then((data) => setRecipes(data));
-  }, []);
+    const getRecipes = async () => {
+      const data = await getDocs(recipesCollectionRef);
+      setRecipes(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+    getRecipes();
+  }, [recipesCollectionRef]);
 
   const handleDelete = async (id) => {
-    await fetch("http://localhost:8000/recipes/" + id, {
-      method: "DELETE",
-    });
-
-    const newRecipes = recipes.filter((recipe) => recipe.id !== id);
-    setRecipes(newRecipes);
+    const toDelete = doc(db, "recipes", id);
+    await deleteDoc(toDelete);
   };
+
   return (
     <Container sx={{ marginTop: "10px" }} className="container">
       <Grid container spacing={3}>
