@@ -7,9 +7,12 @@ import { collection, deleteDoc, getDocs, doc } from "firebase/firestore";
 import { db } from "../firebase-config";
 
 const Recipes = () => {
+  //initialize state to empty array
+  //set fire store collection ref variable and target the collection
   const [recipes, setRecipes] = useState([]);
   const recipesCollectionRef = collection(db, "recipes");
 
+  //get recipes from firestore
   useEffect(() => {
     const getRecipes = async () => {
       const data = await getDocs(recipesCollectionRef);
@@ -18,6 +21,8 @@ const Recipes = () => {
     getRecipes();
   }, [recipesCollectionRef]);
 
+  //delete one recipe from firestore
+  //TODO add an "are you sure?" option
   const handleDelete = async (id) => {
     const toDelete = doc(db, "recipes", id);
     await deleteDoc(toDelete);
