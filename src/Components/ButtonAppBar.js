@@ -18,12 +18,12 @@ const ButtonAppBar = () => {
   async function handleLogOut() {
     try {
       await logout();
+      navigate("/login");
     } catch {
       //TODO: look into a better validation/errorhandling
       console.log("Log Out Failed!");
     }
     //direct user to the login page once signout is complete
-    navigate("/login");
   }
 
   return (

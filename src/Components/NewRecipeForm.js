@@ -57,7 +57,8 @@ const NewRecipeForm = () => {
       title,
       details,
       ingredients,
-      author: { email: auth.currentUser.email, id: auth.currentUser.uid },
+      author: auth.currentUser.email,
+      author_id: auth.currentUser.uid,
     });
     //here's where useNavigate does it's thing and directs user to the homepage
     navigate("/");

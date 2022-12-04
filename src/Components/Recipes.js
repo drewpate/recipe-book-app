@@ -3,8 +3,15 @@ import { useState } from "react";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import RecipeCard from "./RecipeCard";
-import { collection, deleteDoc, getDocs, doc } from "firebase/firestore";
-import { db } from "../firebase-config";
+import {
+  collection,
+  deleteDoc,
+  getDocs,
+  doc,
+  where,
+  query,
+} from "firebase/firestore";
+import { auth, db } from "../firebase-config";
 
 const Recipes = () => {
   //initialize state to empty array
@@ -13,10 +20,17 @@ const Recipes = () => {
   const recipesCollectionRef = collection(db, "recipes");
 
   //get recipes from firestore
+  //will only get docs that were made by the logged in user
   useEffect(() => {
     const getRecipes = async () => {
-      const data = await getDocs(recipesCollectionRef);
-      setRecipes(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      const q = query(
+        recipesCollectionRef,
+        where("author_id", "==", auth.currentUser.uid)
+      );
+      const querySnapShot = await getDocs(q);
+      setRecipes(
+        querySnapShot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      );
     };
     getRecipes();
   }, [recipesCollectionRef]);
