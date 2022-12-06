@@ -8,6 +8,7 @@ import {
   collection,
   deleteDoc,
   getDocs,
+  // updateDoc,
   doc,
   where,
   query,
@@ -19,8 +20,11 @@ const Recipes = () => {
   //set fire store collection ref variable and target the collection
   const [recipes, setRecipes] = useState([]);
   const recipesCollectionRef = collection(db, "recipes");
+
+  //initialize state for the moodal
   const [open, setOpen] = useState(false);
 
+  //state setters for opening and closing the modal
   const handleCloseModal = () => setOpen(false);
   const handleOpenModal = () => setOpen(true);
 
@@ -43,13 +47,19 @@ const Recipes = () => {
   //delete one recipe from firestore
   //TODO add an "are you sure?" option
   const handleDelete = async (id) => {
-    const toDelete = doc(db, "recipes", id);
-    await deleteDoc(toDelete);
+    const docToDelete = doc(db, "recipes", id);
+    await deleteDoc(docToDelete);
   };
 
+  // const handleUpdate = async (id) => {
+  //   const docToUpdate = doc(db, "recipes", id);
+  //   await updateDoc(docToUpdate, {
+
+  //   });
+  // }
   return (
     <>
-      <EditRecipeModal open={open} onClose={handleCloseModal} />
+      <EditRecipeModal open={open} handleCloseModal={handleCloseModal} />
       <Container sx={{ marginTop: "10px" }} className="container">
         <Grid container spacing={3}>
           {recipes.map((recipe) => (
