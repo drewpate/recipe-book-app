@@ -2,22 +2,29 @@ import React from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import { IconButton } from "@mui/material";
 import { DeleteOutlined } from "@mui/icons-material";
+import EditIcon from "@mui/icons-material/Edit";
 import { v4 as uuidv4 } from "uuid";
 
 //this component is used in the Recipes page
 //takes in props to handle rendering the data from the recipes
 //and the delete function
-const RecipeCard = ({ recipe, handleDelete }) => {
+const RecipeCard = ({ recipe, handleDelete, handleOpenModal }) => {
   return (
     <Card>
       <CardHeader
         action={
-          <IconButton onClick={() => handleDelete(recipe.id)}>
-            <DeleteOutlined />
-          </IconButton>
+          <CardActions>
+            <IconButton onClick={() => handleDelete(recipe.id)}>
+              <DeleteOutlined />
+            </IconButton>
+            <IconButton onClick={handleOpenModal}>
+              <EditIcon />
+            </IconButton>
+          </CardActions>
         }
         title={recipe.title}
       />

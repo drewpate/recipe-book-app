@@ -3,6 +3,7 @@ import { useState } from "react";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import RecipeCard from "./RecipeCard";
+import EditRecipeModal from "./EditRecipeModal";
 import {
   collection,
   deleteDoc,
@@ -18,6 +19,10 @@ const Recipes = () => {
   //set fire store collection ref variable and target the collection
   const [recipes, setRecipes] = useState([]);
   const recipesCollectionRef = collection(db, "recipes");
+  const [open, setOpen] = useState(false);
+
+  const handleCloseModal = () => setOpen(false);
+  const handleOpenModal = () => setOpen(true);
 
   //get recipes from firestore
   //will only get docs that were made by the logged in user
@@ -43,15 +48,22 @@ const Recipes = () => {
   };
 
   return (
-    <Container sx={{ marginTop: "10px" }} className="container">
-      <Grid container spacing={3}>
-        {recipes.map((recipe) => (
-          <Grid item key={recipe.id} xs={12}>
-            <RecipeCard recipe={recipe} handleDelete={handleDelete} />
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
+    <>
+      <EditRecipeModal open={open} onClose={handleCloseModal} />
+      <Container sx={{ marginTop: "10px" }} className="container">
+        <Grid container spacing={3}>
+          {recipes.map((recipe) => (
+            <Grid item key={recipe.id} xs={12}>
+              <RecipeCard
+                recipe={recipe}
+                handleDelete={handleDelete}
+                handleOpenModal={handleOpenModal}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+    </>
   );
 };
 
