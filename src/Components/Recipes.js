@@ -9,6 +9,7 @@ import {
   deleteDoc,
   getDocs,
   // updateDoc,
+  getDoc,
   doc,
   where,
   query,
@@ -19,6 +20,7 @@ const Recipes = () => {
   //initialize state to empty array
   //set fire store collection ref variable and target the collection
   const [recipes, setRecipes] = useState([]);
+  const [oneRecipe, setOneRecipe] = useState([]);
   const recipesCollectionRef = collection(db, "recipes");
 
   //initialize state for the moodal
@@ -27,6 +29,19 @@ const Recipes = () => {
   //state setters for opening and closing the modal
   const handleCloseModal = () => setOpen(false);
   const handleOpenModal = () => setOpen(true);
+
+  //get one recipe
+  const getRecipe = async (id) => {
+    console.log("get recipe fired");
+    const docRef = doc(db, "recipes", id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      console.log("Document:", docSnap.data());
+      setOneRecipe(docSnap.data());
+    } else {
+      console.log("failed to get document!");
+    }
+  };
 
   //get recipes from firestore
   //will only get docs that were made by the logged in user
@@ -59,7 +74,11 @@ const Recipes = () => {
   // }
   return (
     <>
-      <EditRecipeModal open={open} handleCloseModal={handleCloseModal} />
+      <EditRecipeModal
+        open={open}
+        oneRecipe={oneRecipe}
+        handleCloseModal={handleCloseModal}
+      />
       <Container sx={{ marginTop: "10px" }} className="container">
         <Grid container spacing={3}>
           {recipes.map((recipe) => (
@@ -68,6 +87,7 @@ const Recipes = () => {
                 recipe={recipe}
                 handleDelete={handleDelete}
                 handleOpenModal={handleOpenModal}
+                getRecipe={getRecipe}
               />
             </Grid>
           ))}

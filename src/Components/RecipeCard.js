@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from "uuid";
 //this component is used in the Recipes page
 //takes in props to handle rendering the data from the recipes
 //and the delete function
-const RecipeCard = ({ recipe, handleDelete, handleOpenModal }) => {
+const RecipeCard = ({ recipe, handleDelete, handleOpenModal, getRecipe }) => {
   return (
     <Card>
       <CardHeader
@@ -21,7 +21,12 @@ const RecipeCard = ({ recipe, handleDelete, handleOpenModal }) => {
             <IconButton onClick={() => handleDelete(recipe.id)}>
               <DeleteOutlined />
             </IconButton>
-            <IconButton onClick={handleOpenModal}>
+            <IconButton
+              onClick={() => {
+                handleOpenModal();
+                getRecipe(recipe.id);
+              }}
+            >
               <EditIcon />
             </IconButton>
           </CardActions>
