@@ -28,7 +28,7 @@ const Recipes = () => {
 
   //state setters for opening and closing the modal
   const handleCloseModal = () => setOpen(false);
-  const handleOpenModal = () => setOpen(true);
+  const handleToggle = () => setOpen(!open);
 
   //get one recipe
   const getRecipe = async (id) => {
@@ -87,7 +87,7 @@ const Recipes = () => {
               <RecipeCard
                 recipe={recipe}
                 handleDelete={handleDelete}
-                handleOpenModal={handleOpenModal}
+                handleToggle={handleToggle}
                 getRecipe={getRecipe}
               />
             </Grid>
