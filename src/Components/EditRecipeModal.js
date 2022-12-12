@@ -1,12 +1,19 @@
-import React, { useState } from "react";
-import { Backdrop, Card, Typography, TextField, Button } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import {
+  Dialog,
+  Card,
+  CardContent,
+  Typography,
+  TextField,
+  Button,
+} from "@mui/material";
 
 function EditRecipeModal({ oneRecipe, open, handleCloseModal }) {
-  const [modalInputFields, setModalInputFields] = useState({
-    title: oneRecipe.title,
-    ingredients: oneRecipe.ingredients,
-    details: oneRecipe.details,
-  });
+  const [modalInputFields, setModalInputFields] = useState(oneRecipe);
+
+  useEffect(() => {
+    setModalInputFields(oneRecipe);
+  }, [oneRecipe]);
 
   const handleIngredientChange = (e, index) => {
     const updatedRecipe = { ...modalInputFields };
@@ -16,60 +23,62 @@ function EditRecipeModal({ oneRecipe, open, handleCloseModal }) {
   };
 
   return (
-    <Backdrop open={open} onClose={handleCloseModal}>
+    <Dialog open={open} onClose={handleCloseModal}>
       <Card sx={{ padding: "20px" }}>
-        <Typography gutterBottom variant="h5">
-          {modalInputFields.title}
-        </Typography>
-        <form>
-          <TextField
-            name="title"
-            id="title"
-            placeholder="Edit Title"
-            sx={{ padding: "10px" }}
-          />
-          <Typography>Ingredients</Typography>
-          {modalInputFields?.ingredients?.map((ingredient, index) => (
-            <div key={index}>
-              <TextField
-                key={ingredient.id}
-                name="ingredient"
-                id={ingredient.id}
-                value={ingredient.ingredient}
-                placeholder="new ingredient"
-                onChange={(e) => handleIngredientChange(e, index)}
-                fullWidth
-                type="text"
-                sx={{ padding: "10px" }}
-              />
-              <TextField
-                key={ingredient.id}
-                sx={{ padding: "10px" }}
-                name="amount"
-                id={ingredient.amount}
-                value={ingredient.amount}
-                placeholder="new amount"
-                onChange={(e) => handleIngredientChange(e, index)}
-                fullWidth
-              />
-            </div>
-          ))}
-          <Typography>Details</Typography>
-          <TextField
-            margin="dense"
-            id="details"
-            label={modalInputFields.details}
-            multilinerows="10"
-            type="text"
-            fullWidth
-            variant="standard"
-          />
+        <CardContent>
+          <Typography gutterBottom variant="h5">
+            {modalInputFields.title}
+          </Typography>
+          <form>
+            <TextField
+              name="title"
+              id="title"
+              placeholder="Edit Title"
+              sx={{ padding: "10px" }}
+            />
+            <Typography>Ingredients</Typography>
+            {modalInputFields?.ingredients?.map((ingredient, index) => (
+              <div key={index}>
+                <TextField
+                  key={ingredient.id}
+                  name="ingredient"
+                  id={ingredient.id}
+                  value={ingredient.ingredient}
+                  placeholder="new ingredient"
+                  onChange={(e) => handleIngredientChange(e, index)}
+                  fullWidth
+                  type="text"
+                  sx={{ padding: "10px" }}
+                />
+                <TextField
+                  key={ingredient.id}
+                  sx={{ padding: "10px" }}
+                  name="amount"
+                  id={ingredient.amount}
+                  value={ingredient.amount}
+                  placeholder="new amount"
+                  onChange={(e) => handleIngredientChange(e, index)}
+                  fullWidth
+                />
+              </div>
+            ))}
+            <Typography>Details</Typography>
+            <TextField
+              margin="dense"
+              id="details"
+              label={modalInputFields.details}
+              multilinerows="10"
+              type="text"
+              fullWidth
+              variant="standard"
+            />
 
-          <Button onClick={handleCloseModal}>Cancel</Button>
-          <Button onClick={handleCloseModal}>Update Recipe</Button>
-        </form>
+            <Button onClick={handleCloseModal}>Cancel</Button>
+            <Button onClick={handleCloseModal}>Update Recipe</Button>
+          </form>
+        </CardContent>
       </Card>
-    </Backdrop>
+    </Dialog>
   );
 }
 
