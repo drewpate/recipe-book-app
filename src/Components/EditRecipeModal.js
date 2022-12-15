@@ -8,12 +8,12 @@ import {
   Button,
 } from "@mui/material";
 
-function EditRecipeModal({ oneRecipe, open, handleCloseModal }) {
-  const [modalInputFields, setModalInputFields] = useState(oneRecipe);
+function EditRecipeModal({ selectedRecipe, open, handleClose }) {
+  const [modalInputFields, setModalInputFields] = useState({});
 
   useEffect(() => {
-    setModalInputFields(oneRecipe);
-  }, [oneRecipe]);
+    setModalInputFields(selectedRecipe);
+  }, [selectedRecipe]);
 
   const handleIngredientChange = (e, index) => {
     const updatedRecipe = { ...modalInputFields };
@@ -23,7 +23,7 @@ function EditRecipeModal({ oneRecipe, open, handleCloseModal }) {
   };
 
   return (
-    <Dialog open={open} onClose={handleCloseModal}>
+    <Dialog open={open} onClose={handleClose}>
       <Card sx={{ padding: "20px" }}>
         <CardContent>
           <Typography gutterBottom variant="h5">
@@ -73,8 +73,8 @@ function EditRecipeModal({ oneRecipe, open, handleCloseModal }) {
               variant="standard"
             />
 
-            <Button onClick={handleCloseModal}>Cancel</Button>
-            <Button onClick={handleCloseModal}>Update Recipe</Button>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleClose}>Update Recipe</Button>
           </form>
         </CardContent>
       </Card>

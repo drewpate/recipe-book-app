@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import Grid from "@mui/material/Grid";
-import Container from "@mui/material/Container";
+import { Grid, Container } from "@mui/material";
 import RecipeCard from "./RecipeCard";
 import EditRecipeModal from "./EditRecipeModal";
 import {
@@ -9,7 +8,6 @@ import {
   deleteDoc,
   getDocs,
   // updateDoc,
-  getDoc,
   doc,
   where,
   query,
@@ -17,31 +15,11 @@ import {
 import { auth, db } from "../firebase-config";
 
 const Recipes = () => {
-  //initialize state to empty array
   //set fire store collection ref variable and target the collection
   const [recipes, setRecipes] = useState([]);
-  const [oneRecipe, setOneRecipe] = useState([]);
-  const recipesCollectionRef = collection(db, "recipes");
-
-  //initialize state for the moodal
   const [open, setOpen] = useState(false);
-
-  //state setters for opening and closing the modal
-  const handleCloseModal = () => setOpen(false);
-  const handleToggle = () => setOpen(!open);
-
-  //get one recipe
-  const getRecipe = async (id) => {
-    console.log("get recipe fired");
-    const docRef = doc(db, "recipes", id);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      console.log("Document:", docSnap.data());
-      setOneRecipe(docSnap.data());
-    } else {
-      console.log("failed to get document!");
-    }
-  };
+  const [selectedRecipe, setSelectedRecipe] = useState({});
+  const recipesCollectionRef = collection(db, "recipes");
 
   //get recipes from firestore
   //will only get docs that were made by the logged in user
@@ -59,6 +37,19 @@ const Recipes = () => {
     getRecipes();
   }, [recipesCollectionRef]);
 
+  //initialize state for the moodal
+
+  //state setters for opening and closing the modal
+  const handleOpen = (id) => {
+    const editRecipeSelector = recipes.find((recipe) => recipe.id === id);
+    setSelectedRecipe(editRecipeSelector);
+    setOpen(!open);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   //delete one recipe from firestore
   //TODO add an "are you sure?" option
   const handleDelete = async (id) => {
@@ -69,16 +60,15 @@ const Recipes = () => {
   // const handleUpdate = async (id) => {
   //   const docToUpdate = doc(db, "recipes", id);
   //   await updateDoc(docToUpdate, {
-
   //   });
   // }
-
   return (
     <>
       <EditRecipeModal
         open={open}
-        oneRecipe={oneRecipe}
-        handleCloseModal={handleCloseModal}
+        handleClose={handleClose}
+        onClose
+        selectedRecipe={selectedRecipe}
       />
       <Container sx={{ marginTop: "10px" }} className="container">
         <Grid container spacing={3}>
@@ -87,8 +77,8 @@ const Recipes = () => {
               <RecipeCard
                 recipe={recipe}
                 handleDelete={handleDelete}
-                handleToggle={handleToggle}
-                getRecipe={getRecipe}
+                handleClose={handleClose}
+                handleOpen={handleOpen}
               />
             </Grid>
           ))}
