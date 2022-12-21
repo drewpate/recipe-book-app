@@ -25,7 +25,7 @@ const NewRecipeForm = () => {
 
   const [inputFields, setInputFields] = useState({
     title: "",
-    details: "",
+    instructions: "",
     ingredients: [],
   });
 
@@ -43,7 +43,7 @@ const NewRecipeForm = () => {
 
     //assigned the state values to variables to make them easier to work with for validation below
     let title = inputFields.title;
-    let details = inputFields.details;
+    let instructions = inputFields.instructions;
     let ingredients = inputFields.ingredients;
 
     //just some validation
@@ -52,12 +52,12 @@ const NewRecipeForm = () => {
       return setErrorMessage("Please enter title");
     }
 
-    if (details === "") {
-      return setErrorMessage("Please provide details");
+    if (ingredients.length === 0) {
+      return setErrorMessage("Please enter at least one ingredient");
     }
 
-    if (ingredients === "") {
-      return setErrorMessage("At least one ingredient required");
+    if (instructions === "") {
+      return setErrorMessage("Please enter instructions");
     }
 
     try {
@@ -66,17 +66,17 @@ const NewRecipeForm = () => {
       //adds the recipe to firestore
       await addDoc(postCollectionRef, {
         title,
-        details,
         ingredients,
+        instructions,
         author: auth.currentUser.email,
         author_id: auth.currentUser.uid,
       });
+      //here's where useNavigate does it's thing and directs user to the homepage
+      setLoading(false);
     } catch (error) {
       setErrorMessage("Failed to create recipe");
       console.log(error);
     }
-    setLoading(false);
-    //here's where useNavigate does it's thing and directs user to the homepage
     navigate("/recipes");
   };
 
@@ -224,10 +224,10 @@ const NewRecipeForm = () => {
             })}
 
             <TextField
-              label="Details"
+              label="Instructions"
               id="outlined-basic"
-              name="details"
-              value={inputFields.details}
+              name="instructions"
+              value={inputFields.instructions}
               variant="outlined"
               multiline
               rows={4}

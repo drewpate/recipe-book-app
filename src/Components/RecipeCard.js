@@ -39,13 +39,15 @@ const RecipeCard = ({ recipe, handleDelete, handleOpen }) => {
           <Typography key={uuidv4()} variant="body2" color="textSecondary">
             <b>Ingredient:</b> {recipe.ingredients[index].ingredient}
             <br />
-            <b>Amount:</b> {recipe.ingredients[index].amount}
+            <b>- Amount:</b> {recipe.ingredients[index].amount}
+            <br />
+            <b>- Unit:</b> {recipe.ingredients[index].unit}
           </Typography>
         ))}
       </CardContent>
       <CardContent>
         <Typography variant="body2" color="textSecondary">
-          {recipe.details}
+          {recipe.instructions}
         </Typography>
       </CardContent>
     </Card>
