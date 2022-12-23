@@ -45,6 +45,7 @@ function EditRecipeModal({ selectedRecipe, open, handleClose }) {
                   id={ingredient.id}
                   value={ingredient.ingredient}
                   placeholder="new ingredient"
+                  label="Ingredient"
                   onChange={(e) => handleIngredientChange(e, index)}
                   fullWidth
                   type="text"
@@ -57,16 +58,17 @@ function EditRecipeModal({ selectedRecipe, open, handleClose }) {
                   id={ingredient.amount}
                   value={ingredient.amount}
                   placeholder="new amount"
+                  label="Amount"
                   onChange={(e) => handleIngredientChange(e, index)}
                   fullWidth
                 />
               </div>
             ))}
-            <Typography>Details</Typography>
+            <Typography>Instructions</Typography>
             <TextField
               margin="dense"
               id="details"
-              label={modalInputFields.details}
+              label={modalInputFields.instructions}
               multilinerows="10"
               type="text"
               fullWidth

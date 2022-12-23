@@ -26,7 +26,13 @@ const NewRecipeForm = () => {
   const [inputFields, setInputFields] = useState({
     title: "",
     instructions: "",
-    ingredients: [],
+    ingredients: [
+      {
+        ingredient: "",
+        amount: "",
+        unit: "",
+      },
+    ],
   });
 
   //initialize states
@@ -46,14 +52,14 @@ const NewRecipeForm = () => {
     let instructions = inputFields.instructions;
     let ingredients = inputFields.ingredients;
 
-    //just some validation
-    //TODO: try to store this in a variable elsewhere and bring it in to make this look a bit cleaner
     if (title === "") {
       return setErrorMessage("Please enter title");
     }
-
     if (ingredients.length === 0) {
-      return setErrorMessage("Please enter at least one ingredient");
+      return setErrorMessage("Please include at least one ingredient");
+    }
+    if (ingredients.map((ingredient) => ingredient === "")) {
+      return setErrorMessage("Please fill or remove empty ingredient fields");
     }
 
     if (instructions === "") {
@@ -71,7 +77,6 @@ const NewRecipeForm = () => {
         author: auth.currentUser.email,
         author_id: auth.currentUser.uid,
       });
-      //here's where useNavigate does it's thing and directs user to the homepage
       setLoading(false);
     } catch (error) {
       setErrorMessage("Failed to create recipe");
@@ -102,6 +107,7 @@ const NewRecipeForm = () => {
   };
   //handles change for the ingredients
   const handleIngredientChange = (e, index) => {
+    setErrorMessage("");
     const updatedIngredients = { ...inputFields };
     updatedIngredients.ingredients[index][e.target.name] = e.target.value;
     setInputFields(updatedIngredients);
@@ -110,8 +116,8 @@ const NewRecipeForm = () => {
   //TODO see if it might make things simpler to store these in a ref since we don't really need statet
   //to track these until user submits?
   const handleChange = (e) => {
+    setErrorMessage("");
     const { name, value } = e.target;
-
     setInputFields({
       ...inputFields,
       [name]: value,
@@ -145,7 +151,6 @@ const NewRecipeForm = () => {
               label="Title"
               onChange={handleChange}
               sx={{ paddingBottom: "10px" }}
-              required
             />
 
             {inputFields.ingredients.map((ingredient, index) => {
@@ -233,7 +238,6 @@ const NewRecipeForm = () => {
               rows={4}
               onChange={handleChange}
               sx={{ paddingBottom: "10px" }}
-              required
             >
               Details
             </TextField>
