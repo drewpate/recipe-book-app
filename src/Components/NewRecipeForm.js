@@ -47,23 +47,34 @@ const NewRecipeForm = () => {
     e.preventDefault();
     setErrorMessage("");
 
-    //assigned the state values to variables to make them easier to work with for validation below
     let title = inputFields.title;
-    let instructions = inputFields.instructions;
     let ingredients = inputFields.ingredients;
+    let instructions = inputFields.instructions;
 
     if (title === "") {
-      return setErrorMessage("Please enter title");
+      return setErrorMessage("Please enter a title");
     }
+
     if (ingredients.length === 0) {
-      return setErrorMessage("Please include at least one ingredient");
+      return setErrorMessage(
+        "At least one ingredient, amount, and unit required"
+      );
     }
-    if (ingredients.map((ingredient) => ingredient === "")) {
+
+    if (ingredients.some((ingredient) => ingredient.ingredient === "")) {
       return setErrorMessage("Please fill or remove empty ingredient fields");
     }
 
+    if (
+      ingredients.some(
+        (ingredient) => ingredient.amount === "" || ingredient.unit === ""
+      )
+    ) {
+      return setErrorMessage("Amount and Unit fields are required");
+    }
+
     if (instructions === "") {
-      return setErrorMessage("Please enter instructions");
+      return setErrorMessage("Please fill out instructions");
     }
 
     try {
@@ -79,8 +90,8 @@ const NewRecipeForm = () => {
       });
       setLoading(false);
     } catch (error) {
+      console.log(error.message);
       setErrorMessage("Failed to create recipe");
-      console.log(error);
     }
     navigate("/recipes");
   };
@@ -134,8 +145,8 @@ const NewRecipeForm = () => {
             Create A Recipe
           </Typography>
           <form
-            className="form"
             noValidate
+            className="form"
             autoComplete="off"
             onSubmit={createRecipe}
           >
@@ -151,6 +162,8 @@ const NewRecipeForm = () => {
               label="Title"
               onChange={handleChange}
               sx={{ paddingBottom: "10px" }}
+              fullWidth
+              required
             />
 
             {inputFields.ingredients.map((ingredient, index) => {
@@ -187,7 +200,7 @@ const NewRecipeForm = () => {
                       />
                     </Grid>
                     <Grid item xs={6}>
-                      <FormControl fullWidth>
+                      <FormControl sx={{ m: 1, minWidth: 120 }}>
                         <InputLabel>Unit</InputLabel>
                         <Select
                           value={ingredient.unit}

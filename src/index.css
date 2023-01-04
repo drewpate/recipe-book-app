@@ -19,7 +19,7 @@ code {
 }
 
 .form {
-  max-width: 330px;
+  max-width: 600px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;

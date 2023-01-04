@@ -9,6 +9,7 @@ import {
   Typography,
   Button,
   Link,
+  FormControl,
 } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { Container } from "@mui/system";
@@ -32,11 +33,13 @@ const Login = () => {
       setError("");
       setLoading(true);
       await login(emailRef.current.value, passwordRef.current.value);
-    } catch {
-      setError("Invalid credentials");
+      setLoading(false);
+      navigate("/newrecipe");
+    } catch (error) {
+      console.log(error.message);
+      setError("Login Failed: Incorrect Email or Password");
+      setLoading(false);
     }
-    setLoading(false);
-    navigate("/newrecipe");
   }
 
   return (
@@ -57,23 +60,25 @@ const Login = () => {
                 {error}
               </Alert>
             )}
-            <TextField
-              required
-              type="email"
-              inputRef={emailRef}
-              placeholder="Email Address"
-              autoComplete="off"
-            />
-            <br />
-            <br />
-            <TextField
-              required
-              type="password"
-              inputRef={passwordRef}
-              id="outlined-password-input"
-              label="Password"
-              autoComplete="off"
-            />
+            <FormControl sx={{ m: 1, minWidth: 120 }} disabled>
+              <TextField
+                required
+                type="email"
+                inputRef={emailRef}
+                placeholder="Email Address"
+                autoComplete="off"
+              />
+              <br />
+              <br />
+              <TextField
+                required
+                type="password"
+                inputRef={passwordRef}
+                id="outlined-password-input"
+                label="Password"
+                autoComplete="off"
+              />
+            </FormControl>
             <br />
             <Button
               sx={{ margin: "5px" }}
