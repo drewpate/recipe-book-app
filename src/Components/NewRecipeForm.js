@@ -61,15 +61,11 @@ const NewRecipeForm = () => {
       );
     }
 
-    if (ingredients.some((ingredient) => ingredient.ingredient === "")) {
+    if (ingredients.some(({ ingredient }) => ingredient === "")) {
       return setErrorMessage("Please fill or remove empty ingredient fields");
     }
 
-    if (
-      ingredients.some(
-        (ingredient) => ingredient.amount === "" || ingredient.unit === ""
-      )
-    ) {
+    if (ingredients.some(({ amount, unit }) => amount === "" || unit === "")) {
       return setErrorMessage("Amount and Unit fields are required");
     }
 
