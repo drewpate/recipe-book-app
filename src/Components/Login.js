@@ -20,11 +20,12 @@ const Login = () => {
   //initialize state
   const emailRef = useRef();
   const passwordRef = useRef();
-  const { login } = useAuth();
+  const { login, googleSignIn } = useAuth();
+  let navigate = useNavigate();
+
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   //assign and initialize useNavigate
-  let navigate = useNavigate();
 
   async function submitHandler(e) {
     e.preventDefault();
@@ -38,6 +39,20 @@ const Login = () => {
     } catch (error) {
       console.log(error.message);
       setError("Login Failed: Incorrect Email or Password");
+      setLoading(false);
+    }
+  }
+
+  async function handleGoogleSignIn(e) {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      await googleSignIn();
+      setLoading(false);
+      navigate("/newrecipe");
+    } catch (error) {
+      console.log(error.message);
+      setError("Login Failed");
       setLoading(false);
     }
   }
@@ -88,9 +103,8 @@ const Login = () => {
             >
               Login
             </Button>
-            {/* TODO: add the Google sign in */}
-            <GoogleButton />
           </form>
+          <GoogleButton onClick={handleGoogleSignIn} />
           <CardContent>
             <Link>Forgot Password</Link>
           </CardContent>
