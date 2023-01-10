@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Grid, Container } from "@mui/material";
 import RecipeCard from "./RecipeCard";
 import EditRecipeModal from "./EditRecipeModal";
+import DeleteRecipeModal from "./DeleteRecipeModal";
 import {
   collection,
   deleteDoc,
@@ -17,6 +18,7 @@ const Recipes = () => {
   //set fire store collection ref variable and target the collection
   const [recipes, setRecipes] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState({});
   const recipesCollectionRef = collection(db, "recipes");
 
@@ -37,14 +39,24 @@ const Recipes = () => {
   }, [recipesCollectionRef]);
 
   //state setters for opening and closing the modal
-  const handleOpen = (id) => {
+  const handleOpenEdit = (id) => {
     const editRecipeSelector = recipes.find((recipe) => recipe.id === id);
     setSelectedRecipe(editRecipeSelector);
     setOpen(!open);
   };
 
-  const handleClose = () => {
+  const handleCloseEdit = () => {
     setOpen(false);
+  };
+
+  const handleOpenDelete = (id) => {
+    const deleteRecipeSelector = recipes.find((recipe) => recipe.id === id);
+    setSelectedRecipe(deleteRecipeSelector);
+    setOpenDelete(!open);
+  };
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
   };
 
   //delete one recipe from firestore
@@ -52,13 +64,21 @@ const Recipes = () => {
   const handleDelete = async (id) => {
     const docToDelete = doc(db, "recipes", id);
     await deleteDoc(docToDelete);
+    handleCloseDelete(!open);
   };
 
   return (
     <>
+      <DeleteRecipeModal
+        open={openDelete}
+        handleCloseDelete={handleCloseDelete}
+        onClose
+        selectedRecipe={selectedRecipe}
+        handleDelete={handleDelete}
+      />
       <EditRecipeModal
         open={open}
-        handleClose={handleClose}
+        handleCloseEdit={handleCloseEdit}
         onClose
         selectedRecipe={selectedRecipe}
       />
@@ -68,9 +88,9 @@ const Recipes = () => {
             <Grid item key={recipe.id} xs={12}>
               <RecipeCard
                 recipe={recipe}
-                handleDelete={handleDelete}
-                handleClose={handleClose}
-                handleOpen={handleOpen}
+                handleCloseEdit={handleCloseEdit}
+                handleOpenEdit={handleOpenEdit}
+                handleOpenDelete={handleOpenDelete}
               />
             </Grid>
           ))}

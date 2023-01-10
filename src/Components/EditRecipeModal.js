@@ -10,7 +10,7 @@ import {
 
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase-config";
-function EditRecipeModal({ selectedRecipe, open, handleClose }) {
+function EditRecipeModal({ selectedRecipe, open, handleCloseEdit }) {
   const [modalInputFields, setModalInputFields] = useState({});
 
   useEffect(() => {
@@ -32,20 +32,24 @@ function EditRecipeModal({ selectedRecipe, open, handleClose }) {
     setModalInputFields(updatedRecipe);
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
     let id = selectedRecipe.id;
     const docRef = doc(db, "recipes", id);
     console.log(docRef);
-    updateDoc(docRef, { ...modalInputFields });
-    handleClose();
+    try {
+      await updateDoc(docRef, { ...modalInputFields });
+      handleCloseEdit();
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={open} onClose={handleCloseEdit}>
       <Card sx={{ padding: "20px" }}>
         <CardContent>
           <Typography gutterBottom variant="h5">
-            {modalInputFields.title}
+            {selectedRecipe.title}
           </Typography>
           <form>
             <TextField
@@ -55,7 +59,7 @@ function EditRecipeModal({ selectedRecipe, open, handleClose }) {
               type="text"
               placeholder="Edit Title"
               label={modalInputFields.title}
-              vlaue={modalInputFields.title}
+              value={modalInputFields.title}
               onChange={(e) => handleChange(e)}
               sx={{ padding: "10px" }}
             />
@@ -91,14 +95,16 @@ function EditRecipeModal({ selectedRecipe, open, handleClose }) {
             <TextField
               margin="dense"
               id="details"
-              label={modalInputFields.instructions}
+              name="instructions"
+              value={modalInputFields.instructions}
               multilinerows="10"
               type="text"
               fullWidth
               variant="standard"
+              onChange={(e) => handleChange(e)}
             />
 
-            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleCloseEdit}>Cancel</Button>
             <Button onClick={handleUpdate}>Update Recipe</Button>
           </form>
         </CardContent>
