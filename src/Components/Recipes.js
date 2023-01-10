@@ -7,7 +7,6 @@ import {
   collection,
   deleteDoc,
   getDocs,
-  // updateDoc,
   doc,
   where,
   query,
@@ -37,8 +36,6 @@ const Recipes = () => {
     getRecipes();
   }, [recipesCollectionRef]);
 
-  //initialize state for the moodal
-
   //state setters for opening and closing the modal
   const handleOpen = (id) => {
     const editRecipeSelector = recipes.find((recipe) => recipe.id === id);
@@ -57,11 +54,6 @@ const Recipes = () => {
     await deleteDoc(docToDelete);
   };
 
-  // const handleUpdate = async (id) => {
-  //   const docToUpdate = doc(db, "recipes", id);
-  //   await updateDoc(docToUpdate, {
-  //   });
-  // }
   return (
     <>
       <EditRecipeModal

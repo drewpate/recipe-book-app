@@ -8,6 +8,8 @@ import {
   Button,
 } from "@mui/material";
 
+import { updateDoc, doc } from "firebase/firestore";
+import { db } from "../firebase-config";
 function EditRecipeModal({ selectedRecipe, open, handleClose }) {
   const [modalInputFields, setModalInputFields] = useState({});
 
@@ -15,11 +17,27 @@ function EditRecipeModal({ selectedRecipe, open, handleClose }) {
     setModalInputFields(selectedRecipe);
   }, [selectedRecipe]);
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setModalInputFields({
+      ...modalInputFields,
+      [name]: value,
+    });
+  };
+
   const handleIngredientChange = (e, index) => {
     const updatedRecipe = { ...modalInputFields };
     updatedRecipe.ingredients[index][e.target.name] = e.target.value;
 
     setModalInputFields(updatedRecipe);
+  };
+
+  const handleUpdate = () => {
+    let id = selectedRecipe.id;
+    const docRef = doc(db, "recipes", id);
+    console.log(docRef);
+    updateDoc(docRef, { ...modalInputFields });
+    handleClose();
   };
 
   return (
@@ -32,8 +50,13 @@ function EditRecipeModal({ selectedRecipe, open, handleClose }) {
           <form>
             <TextField
               name="title"
+              margin="dense"
               id="title"
+              type="text"
               placeholder="Edit Title"
+              label={modalInputFields.title}
+              vlaue={modalInputFields.title}
+              onChange={(e) => handleChange(e)}
               sx={{ padding: "10px" }}
             />
             <Typography>Ingredients</Typography>
@@ -76,7 +99,7 @@ function EditRecipeModal({ selectedRecipe, open, handleClose }) {
             />
 
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose}>Update Recipe</Button>
+            <Button onClick={handleUpdate}>Update Recipe</Button>
           </form>
         </CardContent>
       </Card>
