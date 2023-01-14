@@ -1,19 +1,13 @@
 {
-  "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
-  },
   "hosting": {
-    "public": "build",
+    "public": "public",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "appAssociation": "AUTO",
     "rewrites": [
       {
-        "source": "**",
-        "destination": "/index.html"
+        "source": "/**",
+        "dynamicLinks": true
       }
-    ],
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
-  },
-  "storage": {
-    "rules": "storage.rules"
+    ]
   }
 }
