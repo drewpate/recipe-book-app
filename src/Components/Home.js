@@ -17,7 +17,7 @@ const Home = () => {
             old three-ring binder or the pile of note cards in your kitchen
             drawer.
             <br />
-            To continue please <Link href="myrecipe-app.com/login">Login</Link>
+            To continue please <Link href="/login">Login</Link>
           </Typography>
         </CardContent>
       </Card>
