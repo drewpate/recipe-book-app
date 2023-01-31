@@ -6,6 +6,10 @@ import {
   Button,
   Grid,
   DialogContent,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 
 import { updateDoc, doc } from "firebase/firestore";
@@ -97,6 +101,36 @@ function EditRecipeModal({ selectedRecipe, open, handleCloseEdit }) {
                 onChange={(e) => handleIngredientChange(e, index)}
                 fullWidth
               />
+              <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel>Unit</InputLabel>
+                <Select
+                  value={ingredient.unit}
+                  label="Unit"
+                  name="unit"
+                  id="unit"
+                  onChange={(e) => handleIngredientChange(e, index)}
+                  required
+                >
+                  <MenuItem name="Cup" value="Cup">
+                    Cup
+                  </MenuItem>
+                  <MenuItem name="Ounces" value="Ounces">
+                    Ounces
+                  </MenuItem>
+                  <MenuItem name="Lbs" value="Lbs">
+                    Lbs
+                  </MenuItem>
+                  <MenuItem name="Grams" value="Grams">
+                    Grams
+                  </MenuItem>
+                  <MenuItem name="Tbsp" value="Tbsp">
+                    Tbsp
+                  </MenuItem>
+                  <MenuItem name="Tsp" value="Tsp">
+                    Tsp
+                  </MenuItem>
+                </Select>
+              </FormControl>
             </div>
           ))}
           <Typography>Instructions</Typography>
@@ -105,7 +139,8 @@ function EditRecipeModal({ selectedRecipe, open, handleCloseEdit }) {
             id="details"
             name="instructions"
             value={modalInputFields.instructions}
-            multilinerows="10"
+            multiline
+            rows={4}
             type="text"
             fullWidth
             variant="standard"
