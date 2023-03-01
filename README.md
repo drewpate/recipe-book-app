@@ -6,9 +6,9 @@ This is a personal project for a Recipe Book. The idea originally came about whi
 
 ## Tech Stack
 
--React
--Material UI
--Google Firebase and Firestore
+React
+Material UI
+Google Firebase and Firestore
 
 ### Dynamic Forms and Cards
 
@@ -24,4 +24,4 @@ No CRUD application would be complete with out the U (update) feature. Clicking 
 
 ## Road Map
 
-The goal of this project is to eventually build a custom API with a backend and database, with the ability for the end user to create their own account and save their own recipes.
+The is the first release of the app. In the future users will be able ot share recipes with each other, like and favorite recipes, and add images. Further along, I'd like to see an API to integrate with Instacart or a grocery service to help gather ingredients.
